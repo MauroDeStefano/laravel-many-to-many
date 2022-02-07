@@ -10,8 +10,8 @@
     <tr>
       <th scope="col">#</th>
       <th scope="col">Titolo</th>
-      <th scope="col">Contenuto</th>
       <th scope="col">Tags</th>
+      <th scope="col">Contenuto</th>
       <th scope="col">Categoria</th>
       <th scope="col">Azioni</th>
 
@@ -21,11 +21,17 @@
     @foreach ($posts as $post)
      <tr>
       <th scope="row">{{$post->id}}</th>
-      <td>{{$post->title}}</td>
-      <td>{{$post->tags}}</td>
 
+      <td>{{$post->title}}</td>
+      <td>
+        @foreach ($post->tags as $tag)
+
+        <span class="badge bg-info text-dark m-1">#{{$tag->name}}</span>
+          
+        @endforeach
+      </td>
       <td>{{$post->content}}</td>
-      @if ($post->category->name)
+      @if ($post->category)
         <td>{{$post->category->name}}</td>
       @else
       <td> - </td>

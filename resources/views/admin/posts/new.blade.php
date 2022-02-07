@@ -27,10 +27,10 @@
     </p>
     @enderror
     <label for="selectCategory">Categoria</label>
-    <select class="form-select" 
+    <select class="form-select mr-3" 
     name="category_id"
     id="category_id">
-      <option>Nessuna</option>
+      <option value="">Nessuna</option>
 
       @foreach ($categories as $category)
         <option 
@@ -40,6 +40,19 @@
       @endforeach
 
     </select>
+    
+        @foreach ($tags as $tag)
+          <span class="m-2 ml-4">
+            <input type="checkbox" value="{{$tag->id}}" name="tags[]" id="tags[{{$loop->iteration}}]"
+            @if(in_array($tag->id, old('tags', []))) checked @endif
+            >
+            <label for="tags[{{$loop->iteration}}]">
+              {{$tag->name}}
+            </label>
+
+          </span>
+        @endforeach
+      
     <button type="submit" class="btn btn-primary">Crea Nuovo</button>
     <button type="reset" class="btn btn-secondary" >Reset</button>
   </form>

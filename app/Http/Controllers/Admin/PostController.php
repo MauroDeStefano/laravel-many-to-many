@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Post;
 use App\Category;
+use App\Tag;
 use Illuminate\Support\Str;
 class PostController extends Controller
 {
@@ -17,9 +18,10 @@ class PostController extends Controller
     public function index()
     {
         $posts = Post::all();
+        $tags = Tag::all();
         
         $categories = Category::all();
-        return view('admin.posts.index' , compact('posts', 'categories'));
+        return view('admin.posts.index' , compact('posts', 'categories', 'tags'));
 
     }
 
@@ -31,7 +33,8 @@ class PostController extends Controller
     public function create()
     {
         $categories = Category::all();
-        return view('admin.posts.new', compact('categories'));
+        $tags = Tag::all();
+        return view('admin.posts.new', compact('categories', 'tags'));
     }
 
     /**
@@ -55,6 +58,10 @@ class PostController extends Controller
 
         $new_post->save();
 
+        if(array_key_exists('tags', $data)){
+            $new_post->tags()->attach($data['tags']);
+        }
+
         return redirect()->route('admin.posts.show', $new_post);
       
     }
@@ -67,7 +74,8 @@ class PostController extends Controller
      */
     public function show(Post $post)
     {
-        return view('admin.posts.post', compact('post'));
+        $tags = Tag::all();
+        return view('admin.posts.post', compact('post', 'tags'));
     }
 
     /**
@@ -80,8 +88,9 @@ class PostController extends Controller
     {
         $categories = Category::all();
         $post = Post::find($id);
+        $tags = Tag::all();
         if($post){
-            return view('admin.posts.edit', compact('post', 'categories'));
+            return view('admin.posts.edit', compact('post', 'categories', 'tags'));
         }
         abort(404, 'qualcosa è andato storto, torna alla home');
     }
@@ -103,6 +112,13 @@ class PostController extends Controller
         $data['slug']= Str::slug($data['title']);
 
         $post->update($data);
+
+        
+        if(array_key_exists('tags', $data)){
+            $post->tags()->sync($data['tags']);
+        }else{
+            $post->tags()->detach();
+        }
 
         return redirect()->route('admin.posts.show', $post);
 
