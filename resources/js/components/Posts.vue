@@ -1,11 +1,28 @@
 <template>
-  <div>
+  <div class="container">
     <h1>POSTS</h1>
     
     <PostItem 
     v-for="post in posts" :key="post.id"
     :post = 'post'
     />
+
+    <button class="" @click="getPost(pages.current - 1)"
+    :disabled= "pages.current === 1"
+    >Indietro</button>
+
+    <button v-for="item in pages.last" :key="`pagina` + item"
+    @click="getPost(item)"
+    :disabled = "pages.current === item"
+    >
+    {{item}}
+    </button>
+
+
+    <button class="" @click="getPost(pages.current + 1)"
+    :disabled= "pages.current === pages.last"
+    >Avanti</button>
+  
   </div>
 </template>
 
@@ -35,8 +52,12 @@ export default {
       axios.get(this.apriUrl + page )
       .then(response =>{
         this.posts = response.data.data;
-        console.log(this.posts);
+        this.pages = {
+          current : response.data.current_page,
+          last : response.data.last_page
+        }
         
+        ;
       })
     }
   }

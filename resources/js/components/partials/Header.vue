@@ -1,6 +1,6 @@
 <template>
   <header>
-    <nav>
+    <nav class="container">
       <ul>
         <li><a href="">Home</a></li>
         <li><a href="">Blog</a></li>

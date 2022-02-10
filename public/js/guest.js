@@ -1950,6 +1950,23 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'Posts',
@@ -1973,7 +1990,10 @@ __webpack_require__.r(__webpack_exports__);
       var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
       axios.get(this.apriUrl + page).then(function (response) {
         _this.posts = response.data.data;
-        console.log(_this.posts);
+        _this.pages = {
+          current: response.data.current_page,
+          last: response.data.last_page
+        };
       });
     }
   }
@@ -2547,12 +2567,55 @@ var render = function () {
   var _c = _vm._self._c || _h
   return _c(
     "div",
+    { staticClass: "container" },
     [
       _c("h1", [_vm._v("POSTS")]),
       _vm._v(" "),
       _vm._l(_vm.posts, function (post) {
         return _c("PostItem", { key: post.id, attrs: { post: post } })
       }),
+      _vm._v(" "),
+      _c(
+        "button",
+        {
+          attrs: { disabled: _vm.pages.current === 1 },
+          on: {
+            click: function ($event) {
+              return _vm.getPost(_vm.pages.current - 1)
+            },
+          },
+        },
+        [_vm._v("Indietro")]
+      ),
+      _vm._v(" "),
+      _vm._l(_vm.pages.last, function (item) {
+        return _c(
+          "button",
+          {
+            key: "pagina" + item,
+            attrs: { disabled: _vm.pages.current === item },
+            on: {
+              click: function ($event) {
+                return _vm.getPost(item)
+              },
+            },
+          },
+          [_vm._v("\n  " + _vm._s(item) + "\n  ")]
+        )
+      }),
+      _vm._v(" "),
+      _c(
+        "button",
+        {
+          attrs: { disabled: _vm.pages.current === _vm.pages.last },
+          on: {
+            click: function ($event) {
+              return _vm.getPost(_vm.pages.current + 1)
+            },
+          },
+        },
+        [_vm._v("Avanti")]
+      ),
     ],
     2
   )
@@ -2587,7 +2650,7 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("header", [
-      _c("nav", [
+      _c("nav", { staticClass: "container" }, [
         _c("ul", [
           _c("li", [_c("a", { attrs: { href: "" } }, [_vm._v("Home")])]),
           _vm._v(" "),
@@ -2623,8 +2686,6 @@ var render = function () {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("article", [
-    _c("p", [_vm._v("questa è una prova")]),
-    _vm._v(" "),
     _c("h4", [
       _c("a", { attrs: { href: "" } }, [_vm._v(_vm._s(_vm.post.title))]),
     ]),
