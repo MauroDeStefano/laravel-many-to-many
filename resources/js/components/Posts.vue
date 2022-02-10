@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="container posts-view">
     <h1>POSTS</h1>
     
     <PostItem 
@@ -56,14 +56,23 @@ export default {
           current : response.data.current_page,
           last : response.data.last_page
         }
-        
         ;
       })
     }
-  }
+  },
+
+
 }
 </script>
 
-<style>
+<style lang="scss">
+.posts-view{
+  button{
+    margin: 0 10px 50px 0;
+    padding: 10px;
+    border: none;
+    background-color : rgb(204, 187, 155);
+  }
 
+}
 </style>
