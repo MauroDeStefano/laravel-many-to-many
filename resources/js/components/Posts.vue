@@ -2,10 +2,10 @@
   <div>
     <h1>POSTS</h1>
     
-    <!-- <PostItem 
+    <PostItem 
     v-for="post in posts" :key="post.id"
     :post = 'post'
-    /> -->
+    />
   </div>
 </template>
 
@@ -20,7 +20,7 @@ export default {
   },
   data(){
     return {
-      apriUrl: 'http://127.0.0.1:8000/api/posts',
+      apriUrl: 'http://127.0.0.1:8000/api/posts?page=',
       posts : null,
       pages: {}
     }
@@ -31,11 +31,11 @@ export default {
   },
 
   methods : {
-    getPost(){
-      axios.get(this.apriUrl )
+    getPost(page = 1){
+      axios.get(this.apriUrl + page )
       .then(response =>{
-        this.posts = response.data;
-        console.log(response.data);
+        this.posts = response.data.data;
+        console.log(this.posts);
         
       })
     }

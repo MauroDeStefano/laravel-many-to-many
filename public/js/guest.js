@@ -1958,7 +1958,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   data: function data() {
     return {
-      apriUrl: 'http://127.0.0.1:8000/api/posts',
+      apriUrl: 'http://127.0.0.1:8000/api/posts?page=',
       posts: null,
       pages: {}
     };
@@ -1970,9 +1970,10 @@ __webpack_require__.r(__webpack_exports__);
     getPost: function getPost() {
       var _this = this;
 
-      axios.get(this.apriUrl).then(function (response) {
-        _this.posts = response.data;
-        console.log(response.data);
+      var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
+      axios.get(this.apriUrl + page).then(function (response) {
+        _this.posts = response.data.data;
+        console.log(_this.posts);
       });
     }
   }
@@ -2544,16 +2545,19 @@ var render = function () {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
+  return _c(
+    "div",
+    [
+      _c("h1", [_vm._v("POSTS")]),
+      _vm._v(" "),
+      _vm._l(_vm.posts, function (post) {
+        return _c("PostItem", { key: post.id, attrs: { post: post } })
+      }),
+    ],
+    2
+  )
 }
-var staticRenderFns = [
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", [_c("h1", [_vm._v("POSTS")])])
-  },
-]
+var staticRenderFns = []
 render._withStripped = true
 
 
