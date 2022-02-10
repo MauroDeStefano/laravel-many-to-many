@@ -10,9 +10,9 @@ class PostController extends Controller
 {
     public function index(){
 
-        $posts = Post::All();
+        $posts = Post::all();
 
-        return response()->json(compact('posts'));
+        return response()->json($posts);
 
     }
 }

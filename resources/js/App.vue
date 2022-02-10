@@ -1,14 +1,24 @@
 <template>
-  <h1>Sono dentro VUE</h1>
+<div>
+  <Header />
+  <Posts />
+</div>  
 </template>
 
 <script>
+
+import Header from './components/partials/Header.vue';
+import Posts from './components/Posts.vue';
+
 export default {
   name: "App",
-
+  components: {
+    Header,
+    Posts,
+  }
 }
 </script>
 
-<style>
+<style lang="scss">
 
 </style>
